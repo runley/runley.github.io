@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yelnur Sultanbekov — Real Estate Finance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:    #0e1117;
+      --paper:  #f5f0e8;
+      --gold:   #b8953f;
+      --gold-lt:#d4b06a;
+      --warm:   #e8dfc8;
+      --muted:  #7a7060;
+      --accent: #2a3a5c;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 4rem;
+      background: rgba(245,240,232,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(184,149,63,0.2);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem; letter-spacing: 0.08em; color: var(--ink);
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      padding-top: 5rem;
+    }
+    .hero-left {
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 4rem 4rem 4rem 5rem;
+    }
+    .hero-eyebrow {
+      font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1.8rem;
+    }
+    .hero-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 5vw, 4.8rem);
+      line-height: 1.08; font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+    .hero-name em {
+      font-style: italic; color: var(--gold);
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem; font-weight: 400; font-style: italic;
+      color: var(--muted); margin-bottom: 2.4rem;
+    }
+    .hero-bio {
+      font-size: 0.96rem; color: #4a4535; line-height: 1.8;
+      max-width: 480px; margin-bottom: 3rem;
+    }
+    .hero-cta-group { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-block; padding: 0.75rem 2rem;
+      font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
+      text-decoration: none; transition: all 0.25s; cursor: pointer; border: none;
+    }
+    .btn-primary {
+      background: var(--accent); color: var(--paper);
+    }
+    .btn-primary:hover { background: var(--gold); color: var(--ink); }
+    .btn-outline {
+      background: transparent; color: var(--ink);
+      border: 1.5px solid rgba(14,17,23,0.3);
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+    .hero-right {
+      position: relative; overflow: hidden;
+      background: var(--accent);
+    }
+    .hero-right::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(
+        -45deg,
+        transparent, transparent 40px,
+        rgba(184,149,63,0.06) 40px, rgba(184,149,63,0.06) 41px
+      );
+    }
+    .hero-right-inner {
+      position: relative; z-index: 1;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 4rem 3.5rem;
+      height: 100%;
+    }
+    .stat-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
+    }
+    .stat-item {}
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem; font-weight: 700;
+      color: var(--gold-lt); line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(245,240,232,0.55); margin-top: 0.3rem;
+    }
+    .hero-tag {
+      font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: rgba(245,240,232,0.35); margin-bottom: 3rem;
+    }
+
+    /* ── SECTION SHARED ── */
+    section { padding: 6rem 5rem; }
+    .section-header {
+      display: flex; align-items: baseline; gap: 1.5rem; margin-bottom: 3.5rem;
+    }
+    .section-num {
+      font-size: 0.68rem; letter-spacing: 0.2em; color: var(--gold);
+      text-transform: uppercase;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem; font-weight: 700;
+    }
+    .section-line {
+      flex: 1; height: 1px; background: rgba(184,149,63,0.25);
+      margin-left: 1rem;
+    }
+
+    /* ── ABOUT ── */
+    #about { background: var(--ink); color: var(--paper); }
+    #about .section-title { color: var(--paper); }
+    #about .section-line { background: rgba(184,149,63,0.3); }
+    .about-grid {
+      display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 5rem;
+    }
+    .about-text p {
+      font-size: 0.97rem; line-height: 1.85; color: rgba(245,240,232,0.78);
+      margin-bottom: 1.4rem;
+    }
+    .about-text p strong { color: var(--gold-lt); font-weight: 500; }
+    .skills-list {
+      display: flex; flex-direction: column; gap: 0.5rem; margin-top: 2rem;
+    }
+    .skill-row {
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .skill-label {
+      font-size: 0.73rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(245,240,232,0.45); width: 130px; flex-shrink: 0;
+    }
+    .skill-bar-bg {
+      flex: 1; height: 3px; background: rgba(245,240,232,0.1); border-radius: 2px;
+    }
+    .skill-bar-fill {
+      height: 100%; background: var(--gold); border-radius: 2px;
+      transition: width 1s ease;
+    }
+
+    /* ── PROJECTS ── */
+    #projects { background: var(--warm); }
+    .projects-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5px;
+      background: rgba(184,149,63,0.2);
+      border: 1.5px solid rgba(184,149,63,0.2);
+    }
+    .project-card {
+      background: var(--paper); padding: 2.4rem;
+      display: flex; flex-direction: column;
+      transition: background 0.25s;
+      text-decoration: none; color: inherit;
+    }
+    .project-card:hover { background: var(--accent); }
+    .project-card:hover .proj-tag { color: rgba(245,240,232,0.5); }
+    .project-card:hover .proj-title { color: var(--gold-lt); }
+    .project-card:hover .proj-desc { color: rgba(245,240,232,0.7); }
+    .project-card:hover .proj-arrow { color: var(--gold-lt); }
+    .project-card:hover .proj-kv-label { color: rgba(245,240,232,0.4); }
+    .project-card:hover .proj-kv-val { color: rgba(245,240,232,0.85); }
+
+    .proj-tag {
+      font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1rem; transition: color 0.25s;
+    }
+    .proj-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.28rem; line-height: 1.3; font-weight: 700;
+      margin-bottom: 0.9rem; transition: color 0.25s;
+    }
+    .proj-desc {
+      font-size: 0.88rem; line-height: 1.7; color: var(--muted);
+      flex: 1; margin-bottom: 1.8rem; transition: color 0.25s;
+    }
+    .proj-kv { display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: 1.5rem; }
+    .proj-kv-row { display: flex; justify-content: space-between; }
+    .proj-kv-label {
+      font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--muted); transition: color 0.25s;
+    }
+    .proj-kv-val {
+      font-size: 0.78rem; font-weight: 500; transition: color 0.25s;
+    }
+    .proj-arrow {
+      font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--muted); align-self: flex-end; transition: color 0.25s;
+    }
+    .proj-links {
+      display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: auto;
+    }
+    .proj-link {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+      text-decoration: none; padding: 0.55rem 1.1rem;
+      border: 1px solid rgba(14,17,23,0.2); color: var(--ink);
+      transition: all 0.2s;
+    }
+    .proj-link:hover { border-color: var(--gold); color: var(--gold); }
+    .project-card:hover .proj-link {
+      border-color: rgba(245,240,232,0.25); color: rgba(245,240,232,0.7);
+    }
+    .project-card:hover .proj-link:hover {
+      border-color: var(--gold-lt); color: var(--gold-lt);
+    }
+    .proj-link svg { width: 11px; height: 11px; flex-shrink: 0; }
+
+    /* ── EXPERIENCE ── */
+    #experience {}
+    .timeline { position: relative; }
+    .timeline::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+      width: 1px; background: rgba(184,149,63,0.3);
+    }
+    .timeline-item {
+      display: grid; grid-template-columns: 200px 1fr;
+      gap: 3rem; padding: 0 0 3rem 2.5rem; position: relative;
+    }
+    .timeline-item::before {
+      content: ''; position: absolute; left: -4.5px; top: 0.35rem;
+      width: 9px; height: 9px; border-radius: 50%;
+      background: var(--gold); border: 2px solid var(--paper);
+    }
+    .tl-date { font-size: 0.78rem; color: var(--gold); letter-spacing: 0.05em; padding-top: 0.1rem; }
+    .tl-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 0.25rem; }
+    .tl-org { font-size: 0.82rem; color: var(--muted); letter-spacing: 0.06em; margin-bottom: 0.8rem; }
+    .tl-body { font-size: 0.88rem; line-height: 1.75; color: #4a4535; }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--ink); color: var(--paper); text-align: center; }
+    #contact .section-title { color: var(--paper); }
+    #contact .section-line { background: rgba(184,149,63,0.3); }
+    .contact-sub {
+      font-size: 0.92rem; color: rgba(245,240,232,0.55);
+      margin-bottom: 2.5rem; max-width: 480px; margin-left: auto; margin-right: auto;
+    }
+    .contact-links { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; }
+    .contact-link {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(245,240,232,0.6); text-decoration: none;
+      padding: 0.8rem 1.8rem; border: 1px solid rgba(245,240,232,0.15);
+      transition: all 0.25s;
+    }
+    .contact-link:hover { border-color: var(--gold); color: var(--gold-lt); }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 2rem 5rem; background: var(--ink);
+      border-top: 1px solid rgba(184,149,63,0.15);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    footer p {
+      font-size: 0.72rem; color: rgba(245,240,232,0.3);
+      letter-spacing: 0.08em;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.7s ease both; }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.22s; }
+    .delay-3 { animation-delay: 0.36s; }
+    .delay-4 { animation-delay: 0.5s; }
+    .delay-5 { animation-delay: 0.64s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 960px) {
+      nav { padding: 1.2rem 2rem; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-right { min-height: 40vh; }
+      .hero-left { padding: 6rem 2rem 2rem; }
+      section { padding: 4rem 2rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .timeline-item { grid-template-columns: 1fr; gap: 0.5rem; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Y. Sultanbekov</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-left">
+    <p class="hero-eyebrow fade-up">NYU Schack Institute of Real Estate</p>
+    <h1 class="hero-name fade-up delay-1">
+      Yelnur<br><em>Sultanbekov</em>
+    </h1>
+    <p class="hero-title fade-up delay-2">MS Real Estate Finance &amp; Investment</p>
+    <p class="hero-bio fade-up delay-3">
+      Real estate finance professional with a background spanning hospitality operations, 
+      property acquisition analysis, and institutional investment research. 
+      Trained at NYU Schack in financial modeling, capital markets, and development 
+      across multiple asset classes — from Arctic eco-resorts to Bronx mixed-use.
+    </p>
+    <div class="hero-cta-group fade-up delay-4">
+      <a href="#projects" class="btn btn-primary">View Projects</a>
+      <a href="mailto:Sultanbekov.02@gmail.com" class="btn btn-outline">Get in Touch</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-right-inner">
+      <p class="hero-tag">Selected Metrics — NYU Graduate Work</p>
+      <div class="stat-grid">
+        <div class="stat-item">
+          <div class="stat-num">28.6%</div>
+          <div class="stat-label">Project IRR — Kupla Hotel</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">2.7×</div>
+          <div class="stat-label">Equity Multiple — Kupla Hotel</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">$500M</div>
+          <div class="stat-label">Target Fund Raise — REIT Fund</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">16%</div>
+          <div class="stat-label">Target Net IRR — REIT Portfolio</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2 class="section-title">About</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>
+        I'm a graduate student at the <strong>NYU Schack Institute of Real Estate</strong>, 
+        pursuing an MS in Real Estate Finance &amp; Investment. My academic focus spans 
+        CMBS capital markets, REIT portfolio construction, hotel development, and 
+        mixed-use residential underwriting.
+      </p>
+      <p>
+        Before NYU, I built a cross-industry foundation in <strong>hospitality operations</strong> 
+        (including Michelin-starred environments), stadium management, and early-stage 
+        real estate development — giving me an operator's eye for how assets perform 
+        on the ground, not just on paper.
+      </p>
+      <p>
+        I combine analytical rigor with real-world pattern recognition. I work 
+        fluently in financial modeling, Python-based data analysis, and investment 
+        research — and I'm actively building proficiency in institutional tools 
+        including ARGUS, CoStar, and Bloomberg.
+      </p>
+      <p>
+        Originally from Kazakhstan, I've lived and worked across three countries, 
+        which shapes my view of global capital flows and cross-border real estate markets.
+      </p>
+    </div>
+    <div>
+      <div class="skills-list">
+        <div style="font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(245,240,232,0.4);margin-bottom:1rem;">Core Competencies</div>
+        <div class="skill-row">
+          <span class="skill-label">Financial Modeling</span>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:88%"></div></div>
+        </div>
+        <div class="skill-row">
+          <span class="skill-label">Waterfall / DCF</span>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:85%"></div></div>
+        </div>
+        <div class="skill-row">
+          <span class="skill-label">CMBS Analysis</span>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:80%"></div></div>
+        </div>
+        <div class="skill-row">
+          <span class="skill-label">REIT Research</span>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:78%"></div></div>
+        </div>
+        <div class="skill-row">
+          <span class="skill-label">Market Analysis</span>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:84%"></div></div>
+        </div>
+        <div class="skill-row">
+          <span class="skill-label">Python / Data</span>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:82%"></div></div>
+        </div>
+        <div class="skill-row">
+          <span class="skill-label">Hotel Operations</span>
+          <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:90%"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Projects</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="projects-grid">
+
+    <!-- Kupla Hotel -->
+    <div class="project-card">
+      <div class="proj-tag">Hotel Development · Finland</div>
+      <div class="proj-title">Kupla Hotel<br>Pitch Book</div>
+      <p class="proj-desc">
+        Full development pitch for an eco-luxury bubble resort near Pyhä–Luosto 
+        National Park. Structured by Y&amp;C Acquisitions, this 55-suite glass resort 
+        blends Arctic experiences with eco-brutalist design by Robert Glazier Architects. 
+        Includes full financial model, site analysis, market study, and community 
+        relations strategy.
+      </p>
+      <div class="proj-kv">
+        <div class="proj-kv-row">
+          <span class="proj-kv-label">IRR</span>
+          <span class="proj-kv-val">28.6%</span>
+        </div>
+        <div class="proj-kv-row">
+          <span class="proj-kv-label">Net Profit</span>
+          <span class="proj-kv-val">$54.4M</span>
+        </div>
+        <div class="proj-kv-row">
+          <span class="proj-kv-label">Equity Multiple</span>
+          <span class="proj-kv-val">2.7×</span>
+        </div>
+        <div class="proj-kv-row">
+          <span class="proj-kv-label">Stabilized Yield-on-Cost</span>
+          <span class="proj-kv-val">10.3%</span>
+        </div>
+      </div>
+      <div class="proj-links">
+        <a href="docs/Hotel_Development_Pitch_Book.pptx" download class="proj-link">
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 1v7M3 5l3 3 3-3M1 10h10"/></svg>
+          Download Deck
+        </a>
+        <a href="docs/Hotel_Development_Pitch_Book.pptx" target="_blank" class="proj-link">
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 2H2v8h8V7M7 1h4v4M5 7l6-6"/></svg>
+          View
+        </a>
+      </div>
+    </div>
+
+    <!-- One&Only Investment Proposal -->
+    <div class="project-card">
+      <div class="proj-tag">Acquisition Analysis · Maldives</div>
+      <div class="proj-title">One&Only Reethi Rah<br>Investment Proposal</div>
+      <p class="proj-desc">
+        Institutional-grade acquisition memo for One&Only Reethi Rah, a 118-villa 
+        ultra-luxury resort on a 109-acre private island in the Maldives. Covers 
+        brand analysis (Kerzner International), property merits, F&amp;B operations, 
+        competitive positioning, target demographics, and risk assessment.
+      </p>
+      <div class="proj-kv">
+        <div class="proj-kv-row">
+          <span class="proj-kv-label">Asset Type</span>
+          <span class="proj-kv-val">Ultra-Luxury Resort</span>
+        </div>
+        <div class="proj-kv-row">
+          <span class="proj-kv-label">Total Island Area</span>
+          <span class="proj-kv-val">109 Acres</span>
+        </div>
+        <div class="proj-kv-row">
+          <span class="proj-kv-label">Villa Count</span>
+          <span class="proj-kv-val">118 Units</span>
+        </div>
+        <div class="proj-kv-row">
+          <span class="proj-kv-label">Operator</span>
+          <span class="proj-kv-val">Kerzner International</span>
+        </div>
+      </div>
+      <div class="proj-links">
+        <a href="docs/Investment_Proposal.docx" download class="proj-link">
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 1v7M3 5l3 3 3-3M1 10h10"/></svg>
+          Download
+        </a>
+        <a href="docs/Investment_Proposal.docx" target="_blank" class="proj-link">
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 2H2v8h8V7M7 1h4v4M5 7l6-6"/></svg>
+          View
+        </a>
+      </div>
+    </div>
+
+    <!-- The Oasis -->
+    <div class="project-card">
+      <div class="proj-tag">Mixed-Use Development · Bronx</div>
+      <div class="proj-title">The Oasis<br>Offering Memorandum</div>
+      <p class="proj-desc">
+        Full offering memorandum for a mixed-use development in Williamsbridge, 
+        Bronx. Prepared by Team Faustin &amp; Co. LLC (5-person NYU group). Covers 
+        property overview, site configuration, zoning controls, infrastructure, 
+        environmental conditions, market analysis, financial projections, and 
+        construction plan.
+      </p>
+      <div class="proj-kv">
+        <div class="proj-kv-row">
+          <span class="proj-kv-label">Asset Type</span>
+          <span class="proj-kv-val">Mixed-Use / Residential</span>
+        </div>
+        <div class="proj-kv-row">
+          <span class="proj-kv-label">Location</span>
+          <span class="proj-kv-val">Williamsbridge, Bronx NY</span>
+        </div>
+        <div class="proj-kv-row">
+          <span class="proj-kv-label">Program</span>
+          <span class="proj-kv-val">Development + Finance</span>
+        </div>
+      </div>
+      <div class="proj-links">
+        <a href="docs/The_Oasis_Pitch_Book.pptx" download class="proj-link">
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 1v7M3 5l3 3 3-3M1 10h10"/></svg>
+          Pitch Book
+        </a>
+        <a href="docs/The_Oasis_-_Offering_Memorandum.docx" download class="proj-link">
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 1v7M3 5l3 3 3-3M1 10h10"/></svg>
+          Offering Memo
+        </a>
+      </div>
+    </div>
+
+    <!-- CMBS Memorandum -->
+    <div class="project-card">
+      <div class="proj-tag">Capital Markets · CMBS</div>
+      <div class="proj-title">CMBS Portfolio<br>Memorandum</div>
+      <p class="proj-desc">
+        Detailed analysis of three real CMBS deals — BMO 2022-C1, BMARK 2022-B32, 
+        and COMM 2022-HC. Covers origination, capital structure, stratification, 
+        top 15 loans, current watchlist conditions, and macro/market context 
+        including the office concentration problem in post-pandemic CMBS pools.
+      </p>
+      <div class="proj-kv">
+        <div class="proj-kv-row">
+          <span class="proj-kv-label">Deals Analyzed</span>
+          <span class="proj-kv-val">BMO · BMARK · COMM</span>
+        </div>
+        <div class="proj-kv-row">
+          <span class="proj-kv-label">Vintage</span>
+          <span class="proj-kv-val">2022 Origination</span>
+        </div>
+        <div class="proj-kv-row">
+          <span class="proj-kv-label">Coverage</span>
+          <span class="proj-kv-val">Capital Structure + Stress</span>
+        </div>
+      </div>
+      <div class="proj-links">
+        <a href="docs/CMBS_Memorandum.docx" download class="proj-link">
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 1v7M3 5l3 3 3-3M1 10h10"/></svg>
+          Download
+        </a>
+        <a href="docs/CMBS_Memorandum.docx" target="_blank" class="proj-link">
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 2H2v8h8V7M7 1h4v4M5 7l6-6"/></svg>
+          View
+        </a>
+      </div>
+    </div>
+
+    <!-- REIT Memorandum -->
+    <div class="project-card">
+      <div class="proj-tag">Equity Research · REITs</div>
+      <div class="proj-title">Value-Add REIT<br>Fund Memorandum</div>
+      <p class="proj-desc">
+        Fund construction memo for a $500M value-add REIT strategy targeting 
+        12–16% net IRR. Portfolio allocated 40% data centers (Digital Realty), 
+        30% industrial (Prologis), 30% multifamily (AvalonBay). Includes full 
+        sector analysis, REIT-level deep dives, portfolio construction rationale, 
+        and risk mitigants.
+      </p>
+      <div class="proj-kv">
+        <div class="proj-kv-row">
+          <span class="proj-kv-label">Target Fund Size</span>
+          <span class="proj-kv-val">$500M</span>
+        </div>
+        <div class="proj-kv-row">
+          <span class="proj-kv-label">Target Net IRR</span>
+          <span class="proj-kv-val">12–16%</span>
+        </div>
+        <div class="proj-kv-row">
+          <span class="proj-kv-label">Equity Multiple</span>
+          <span class="proj-kv-val">1.5–1.8×</span>
+        </div>
+      </div>
+      <div class="proj-links">
+        <a href="docs/REIT_Memorandum.docx" download class="proj-link">
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 1v7M3 5l3 3 3-3M1 10h10"/></svg>
+          Download
+        </a>
+        <a href="docs/REIT_Memorandum.docx" target="_blank" class="proj-link">
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 2H2v8h8V7M7 1h4v4M5 7l6-6"/></svg>
+          View
+        </a>
+      </div>
+    </div>
+
+    <!-- Placeholder for future work -->
+    <div class="project-card" style="opacity:0.45; pointer-events:none;">
+      <div class="proj-tag">Data Analytics · In Progress</div>
+      <div class="proj-title">Rental Price<br>Regression Study</div>
+      <p class="proj-desc">
+        Multiple regression analysis examining how population stressors — housing 
+        conditions, economic factors, healthcare access, and crime — drive rental 
+        price variation across U.S. markets. Uses publicly available datasets 
+        to isolate causal drivers.
+      </p>
+      <div class="proj-kv">
+        <div class="proj-kv-row">
+          <span class="proj-kv-label">Method</span>
+          <span class="proj-kv-val">OLS Multiple Regression</span>
+        </div>
+        <div class="proj-kv-row">
+          <span class="proj-kv-label">Status</span>
+          <span class="proj-kv-val">In Progress</span>
+        </div>
+      </div>
+      <span class="proj-arrow">Coming Soon</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Experience</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="timeline">
+
+    <div class="timeline-item">
+      <div class="tl-date">2024 – Present</div>
+      <div>
+        <div class="tl-title">MS Real Estate Finance &amp; Investment</div>
+        <div class="tl-org">NYU Schack Institute of Real Estate</div>
+        <p class="tl-body">Graduate coursework in capital markets, CMBS, REIT analysis, hotel development, 
+        mixed-use underwriting, and real estate financial modeling. Applied projects 
+        spanning Arctic resort development, Maldives acquisition analysis, Bronx 
+        residential development, and CMBS portfolio stress testing.</p>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="tl-date">2023 – 2024</div>
+      <div>
+        <div class="tl-title">Real Estate Development Assistant</div>
+        <div class="tl-org">Ainek, LLC — New York City</div>
+        <p class="tl-body">Property acquisition analysis, market research, and investment strategy. 
+        Evaluated resale values, conducted property inspections, and participated in 
+        strategic decision-making for residential and mixed-use assets across NYC.</p>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="tl-date">Prior</div>
+      <div>
+        <div class="tl-title">Property Scout</div>
+        <div class="tl-org">New York City</div>
+        <p class="tl-body">Market reconnaissance and property valuation across New York's five boroughs. 
+        Developed ground-level understanding of neighborhood dynamics, rental market 
+        conditions, and comparative property assessment.</p>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="tl-date">Cross-Industry</div>
+      <div>
+        <div class="tl-title">Hospitality &amp; Stadium Operations</div>
+        <div class="tl-org">Michelin-Starred Environments &amp; Venue Operations — UK / Kazakhstan / USA</div>
+        <p class="tl-body">Operational experience across Michelin-starred kitchens, hotel management, 
+        and stadium facilities — providing an operator's lens on asset performance, 
+        guest experience design, and revenue management that informs hospitality 
+        underwriting work.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header" style="justify-content:center; margin-bottom:1.5rem;">
+    <span class="section-num">04</span>
+    <h2 class="section-title">Contact</h2>
+    <div class="section-line"></div>
+  </div>
+  <p class="contact-sub">
+    Open to real estate finance roles, research collaborations, and 
+    conversations about hospitality investment and capital markets.
+  </p>
+  <div class="contact-links">
+    <a href="mailto:Sultanbekov.02@gmail.com" class="contact-link">
+      ✉ Email
+    </a>
+    <a href="tel:9295998011" class="contact-link">
+      ☎ (929) 599-8011
+    </a>
+    <a href="https://www.linkedin.com/in/yelnur-sultanbekov" target="_blank" class="contact-link">
+      LinkedIn
+    </a>
+    <a href="https://github.com/runley" target="_blank" class="contact-link">
+      GitHub
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 Yelnur Sultanbekov</p>
+  <p>NYU Schack Institute of Real Estate — MS Real Estate Finance &amp; Investment</p>
+</footer>
+
+</body>
+</html>
